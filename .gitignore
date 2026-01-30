@@ -1,4 +1,9 @@
-brainfk
-*.bf
-*.b
-**/brainfk-gen
+# Ignored files and directories
+*
+
+# Important files and directories
+!main.c
+!generator/main.c
+!README.md
+![mM]akefile
+!.gitignore
