@@ -23,8 +23,6 @@ void print_usage(char*);
 void print_options(void);
 int check_ext(char*);
 
-int stoi(char*);
-
 char cells[100] = {0};
 
 int main(int argc, char** argv) {
@@ -61,8 +59,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-
-    char input[1000];
+    char input[9999];
     int i = 0;
 
     int stack_loop[100];
@@ -94,7 +91,10 @@ int main(int argc, char** argv) {
                 else --stack_i;
                 break;
             case '.':
-	           	if (parser.non_char) printf("%d%c", cells[x], parser.sep);
+	           	if (parser.non_char) {
+					printf("%d", cells[x]);
+					if ((i + 3) < (int)strlen(input)) printf("%c", parser.sep);
+				}
 	           	else printf("%c", cells[x]);
 	            break;
             case ',':
@@ -132,12 +132,14 @@ int check_ext(char* filename){
 
 void print_options(void) {
 	puts("Options:");
+	puts("\t-s\tASCII number for separation of digits");
 	puts("\t-c\tIt prints the output as decimal (separated by space), instead of character");
 	puts("\t-h\tIt prints the help message");
 }
 
 void parse_opts(char* name, int argc, char** argv, struct ProgParser* inp_parser){
 	int i;
+	int tmp;
 	while ((i = getopt(argc, argv, P_OPTIONS)) != -1) {
 		switch (i) {
 			case 'h':
@@ -145,6 +147,15 @@ void parse_opts(char* name, int argc, char** argv, struct ProgParser* inp_parser
 			break;
 			case 'c':
 			inp_parser->non_char = 1;
+			break;
+			case 's':
+			tmp = atol(optarg);
+			if (tmp < 0) {
+				printf("%s: Invalid value for option -s (the value should be decimal)\n", name);
+				inp_parser->is_error = 1;
+				return;
+			}
+			inp_parser->sep = tmp;
 			break;
 			case ':':
 			printf("%s: Option -s requires an argument", name);
@@ -157,11 +168,4 @@ void parse_opts(char* name, int argc, char** argv, struct ProgParser* inp_parser
 	}
 	inp_parser->filename = argv[optind];
 	return;
-
-}
-
-int stoi(char* str){
-	while (*str >= 48 && *str++ <= 57);
-	if (!--*str) return atoi(str);
-	return -1;
 }
