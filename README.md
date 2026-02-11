@@ -78,6 +78,57 @@ This code, shows the output, "Hello World!"
 +++>+++++++[<---------->-]<.
 ```
 
+# Using the Generator
+___
+
+## For Windows (Cygwin, WSL2, MYSYS2, etc.), Linux and MacOS
+
+```bash
+# It compiles the program
+make
+
+# If the program needs a permission to run, use this command
+chmod +x brainfk-gen
+
+# Run
+./brainfk-gen
+```
+
+# Usage of the Generator
+___
+```bash
+brainfk-gen [words]
+```
+
+# Example
+___
+
+```bash
+brainfk-gen Hello World!
+
+# Same as the first line (without any other quote)
+brainfk-gen "Hello World!"
+
+# Makes an input, for you to type something
+brainfk-gen
+```
+
+# Tips
+___
+
+Instead of highlighting, manually, the output in your terminal, use this following command:
+```bash
+# Write
+brainfk-gen Hello World! > sample.b
+
+# Append
+brainfk-gen Hello World! >> sample.b
+
+# This works, but this will take also the prompt output
+brainfk-gen >> sample.b
+```
+
+
 This almost acts like the original BrainF\*ck
 
 ---
