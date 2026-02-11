@@ -84,12 +84,12 @@ int main(int argc, char** argv) {
     fclose(f);
 
     size_t x = sizeof(cells) / 2;
-    for (size_t i = 0; i < strlen(input) && x < sizeof(cells); ++i) {
+    for (size_t i = 0; i < strlen(input); ++i) {
         switch (input[i]) {
             case '>': 	x = (x + 1) % MAX_CELLS;					break;
             case '<': 	x = (x - 1) % MAX_CELLS;					break;
-            case '+': 	cells[x] = cells[x] + 1 % MAX_ASCII;		break;
-            case '-': 	cells[x] = cells[x] - 1 % MAX_ASCII;		break;
+            case '+': 	cells[x] = (cells[x] + 1) % MAX_ASCII;		break;
+            case '-': 	cells[x] = (cells[x] - 1) % MAX_ASCII;		break;
             case '[':	stack_loop[++stack_i] = i;					break;
             case ',':	scanf("%c", &cells[x]);						break;
             case ']':
@@ -106,6 +106,7 @@ int main(int argc, char** argv) {
         }
     }
     putchar('\n');
+    free(input);
     return 0;
 }
 
