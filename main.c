@@ -5,6 +5,13 @@
 #include <unistd.h>
 
 #define SELF_NAME argv[0]
+#define MEM_ERROR_MSG "Memory allocation error!\nPlease, free your memory to use this program, properly."
+#define print_usage(name) printf("%s <filename> [options]\n", name);
+#define print_options puts("Options:"); \
+	puts("\t-s\tASCII number for separation of digits"); \
+	puts("\t-c\tIt prints the output as decimal (separated by space), instead of character"); \
+	puts("\t-h\tIt prints the help message");
+
 
 struct ProgParser {
 	char* filename;
@@ -18,9 +25,6 @@ struct ProgParser {
 const char* P_OPTIONS = "chs:";
 
 void parse_opts(char*, int, char**, struct ProgParser*);
-
-void print_usage(char*);
-void print_options(void);
 int check_ext(char*);
 
 char cells[100] = {0};
@@ -31,7 +35,7 @@ int main(int argc, char** argv) {
 		return 0;
 	}
 
-	struct ProgParser parser = {0, .sep = ' '};
+	struct ProgParser parser = {.sep = ' '};
 
 	parse_opts(SELF_NAME, argc, argv, &parser);
 
@@ -39,7 +43,7 @@ int main(int argc, char** argv) {
 
 	if (parser.help){
 		print_usage(SELF_NAME);
-		print_options();
+		print_options;
 		return 0;
 	}
 
@@ -55,37 +59,37 @@ int main(int argc, char** argv) {
         return 1;
     }
     if (check_ext(parser.filename)){
-        printf("%s: File extension of \"%s\" is not valid!\n", argv[0], argv[1]);
+        printf("%s: File extension of \"%s\" is not valid!\n", SELF_NAME, argv[1]);
         return 1;
     }
 
-    char input[9999];
-    int i = 0;
-
+    int i_limit = 1000;
+    char* input = (char*) malloc(i_limit * sizeof(char));
     int stack_loop[100];
     int stack_i = -1;
 
-    while((input[i++] = getc(f)) != EOF);
+    for (int i = 0; input[i] != EOF; input[i++] = getc(f)){
+    	if (i == i_limit){
+  			i_limit += 1000;
+     		char* tmp = (char*) realloc(input, i_limit);
+      		if (tmp == NULL) {
+        		puts(MEM_ERROR_MSG);
+          		return 1;
+        	}
+       		input = tmp;
+     	}
+    }
     fclose(f);
 
-    int x = sizeof(cells) / 2;
-    for (size_t i = 0; i < strlen(input) && x < (int)sizeof(cells); ++i) {
+    size_t x = sizeof(cells) / 2;
+    for (size_t i = 0; i < strlen(input) && x < sizeof(cells); ++i) {
         switch (input[i]) {
-            case '>':
-                ++x;
-                break;
-            case '<':
-                --x;
-                break;
-            case '+':
-                ++cells[x];
-                break;
-            case '-':
-                --cells[x];
-                break;
-            case '[':
-            	stack_loop[++stack_i] = i;
-                break;
+            case '>': 	++x;						break;
+            case '<': 	--x;						break;
+            case '+': 	++cells[x];					break;
+            case '-': 	--cells[x];					break;
+            case '[':	stack_loop[++stack_i] = i;	break;
+            case ',':	scanf("%c", &cells[x]);		break;
             case ']':
                 if (cells[x] != 0) i = stack_loop[stack_i];
                 else --stack_i;
@@ -95,26 +99,17 @@ int main(int argc, char** argv) {
 					printf("%d", cells[x]);
 					if ((i + 3) < strlen(input)) printf("%c", parser.sep);
 				}
-	           	else printf("%c", cells[x]);
+	           	else putchar(cells[x]);
 	            break;
-            case ',':
-                scanf("%c", &cells[x]);
-                break;
         }
     }
 
-    if (x >= (int)sizeof(cells)){
+    if (x >= sizeof(cells)){
         printf("%s: Index is out of cells!\n", argv[0]);
         return 1;
     }
-
-    printf("\n");
-
+    putchar('\n');
     return 0;
-}
-
-void print_usage(char* name) {
-    printf("%s <filename> [options]\n", name);
 }
 
 int check_ext(char* filename){
@@ -130,24 +125,13 @@ int check_ext(char* filename){
     return strcmp(tmp, ext1) == 0 || strcmp(ext2, tmp) == 0;
 }
 
-void print_options(void) {
-	puts("Options:");
-	puts("\t-s\tASCII number for separation of digits");
-	puts("\t-c\tIt prints the output as decimal (separated by space), instead of character");
-	puts("\t-h\tIt prints the help message");
-}
-
 void parse_opts(char* name, int argc, char** argv, struct ProgParser* inp_parser){
-	int i;
-	int tmp;
+	int i, tmp;
 	while ((i = getopt(argc, argv, P_OPTIONS)) != -1) {
 		switch (i) {
-			case 'h':
-			inp_parser->help = 1;
-			break;
-			case 'c':
-			inp_parser->non_char = 1;
-			break;
+			case 'h':	inp_parser->help = 1;		break;
+			case 'c':	inp_parser->non_char = 1;	break;
+			case '?':	inp_parser->is_error = 1;	break;
 			case 's':
 			tmp = atol(optarg);
 			if (tmp < 0) {
@@ -159,9 +143,6 @@ void parse_opts(char* name, int argc, char** argv, struct ProgParser* inp_parser
 			break;
 			case ':':
 			printf("%s: Option -s requires an argument", name);
-			inp_parser->is_error = 1;
-			break;
-			case '?':
 			inp_parser->is_error = 1;
 			break;
 		}
