@@ -8,4 +8,4 @@ generator:
 	g++ $(GEN_DIR) $(CFLAGS) -o brainfk-gen
 
 clean:
-	rm brainfk
+	rm brainfk brainfk-gen
