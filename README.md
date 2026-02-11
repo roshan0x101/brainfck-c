@@ -105,7 +105,7 @@ brainfk-gen
 
 # Tips
 
-Instead of highlighting, manually the output in your terminal, use this following command:
+Instead of highlighting and copy, manually, the output in your terminal, use this following command:
 
 ```bash
 # Write
