@@ -52,7 +52,7 @@ g++ --version
 ```bash
 pacman -Syu
 
-# I suggest to add "mingw-w64-ucrt-x86_64-gcc", toensure "clang" will work
+# I suggest to add "mingw-w64-ucrt-x86_64-gcc", to ensure "clang" will work
 pacman -S mingw-w64-ucrt-x86_64-gcc clang
 
 # This will check if "clang" is already exist
@@ -65,8 +65,8 @@ clang --version
 # Skip this command, if you use this already
 pacman -Syu
 
+# Programs that we need
 pacman -S make git
-# 
 ```
 
 # Instructions
