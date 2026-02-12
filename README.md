@@ -105,7 +105,7 @@ Options:
 
 # Usage of Brainfck
 
-This is the following symbols that you can use:
+These are the following symbols that you can use:
 
 | Symbol | Description                                                                            |
 | ------ | -------------------------------------------------------------------------------------- |
