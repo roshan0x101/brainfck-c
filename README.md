@@ -2,6 +2,19 @@
 
 It is a esoteric programming language, inspired by the original esoteric programming language, named BrainF\*ck
 
+# Quick Start
+To get yourself started to try this program, use this following commands:
+
+```bash
+git clone https://github.com/arleydev0x101/brainfck-c
+
+cd brainfck-c
+
+make
+
+./brainfk samples/hello-world.bf
+```
+
 # Pre-requisites
 
 This are the following requirements:
@@ -50,8 +63,8 @@ clang --version
 ## For Windows (Cygwin, WSL2, MYSYS2, etc.), Linux and MacOS
 
 ```bash
-# It compiles the program
-make
+# It compiles the main program
+make main
 
 # If the program needs a permission to run, use this command
 chmod +x brainfck
@@ -83,16 +96,16 @@ Options:
 
 This is the following symbols that you can use:
 
-| Symbol | Description                                                                         |
-| ------ | ----------------------------------------------------------------------------------- |
-| <      | Move to the left-side of the cell                                                   |
-| >      | Move to the right-side of the cell                                                  |
-| +      | Increments 1 value in the current cell                                              |
-| -      | Decrements 1 value in the current cell                                              |
-| .      | Prints the current cell                                                             |
-| ,      | Makes an input in the initial cell                                                  |
-| [      | Starting loop                                                                       |
-| ]      | Ending loop, acts, as it checks the initial cell is 0. It ends the loop if its true |
+| Symbol | Description                                                                            |
+| ------ | -------------------------------------------------------------------------------------- |
+| <      | Move to the left-side of the cell                                                      |
+| >      | Move to the right-side of the cell                                                     |
+| +      | Increments 1 value in the current cell                                                 |
+| -      | Decrements 1 value in the current cell                                                 |
+| .      | Prints the current cell                                                                |
+| ,      | Makes an input in the initial cell                                                     |
+| [      | Starting loop                                                                          |
+| ]      | Ending loop. It acts, as it checks the initial cell is 0. It ends the loop if its true |
 
 # Example
 
@@ -119,7 +132,7 @@ This code, shows the output, "Hello World!"
 
 ```bash
 # It compiles the program
-make
+make generator
 
 # If the program needs a permission to run, use this command
 chmod +x brainfk-gen
@@ -131,19 +144,19 @@ chmod +x brainfk-gen
 # Usage of the Generator
 
 ```bash
-brainfk-gen [words]
+./brainfk-gen [words]
 ```
 
 # Example
 
 ```bash
-brainfk-gen Hello World!
+./brainfk-gen Hello World!
 
 # Same as the first line (without any other quote)
-brainfk-gen "Hello World!"
+./brainfk-gen "Hello World!"
 
 # Makes an input, for you to type something
-brainfk-gen
+./brainfk-gen
 ```
 
 # Tips
@@ -152,13 +165,13 @@ Instead of highlighting and copy, manually, the output in your terminal, use thi
 
 ```bash
 # Write
-brainfk-gen Hello World! > sample.b
+./brainfk-gen Hello World! > sample.b
 
 # Append
-brainfk-gen Hello World! >> sample.b
+./brainfk-gen Hello World! >> sample.b
 
 # This works, but this will take also the prompt output
-brainfk-gen >> sample.b
+./brainfk-gen >> sample.b
 ```
 
 This almost acts like the original BrainF\*ck
@@ -190,7 +203,7 @@ Then run this command:
 make
 ```
 
-If you don't prefer some other compiler, more than that default, follow the instructions in **[Instructions section](#instructions)**
+If you don't prefer some other compiler, more than that default, follow the instructions in **[Pre-requisites section](#pre-requisites)**
 
 # Disclamer
 
