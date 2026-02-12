@@ -7,11 +7,8 @@ To get yourself started to try this program, use this following commands:
 
 ```bash
 git clone https://github.com/arleydev0x101/brainfck-c
-
 cd brainfck-c
-
 make
-
 ./brainfk samples/hello-world.bf
 ```
 
