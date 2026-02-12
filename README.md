@@ -120,6 +120,8 @@ brainfk-gen >> sample.b
 
 This almost acts like the original BrainF\*ck
 
-For more info about BrainF\*ck, check it out in [Wikipedia](https://en.wikipedia.org/wiki/Brainfuck)
+# Disclamer
 
-I just created this immitate program, for the sake that I wanted to learn a lot in C
+Imitating this existing program is not my intention to own the idea of the original author. Immitating this is my only purpose to learn a lot in C
+
+For more info about BrainF\*ck, check it out in [Wikipedia](https://en.wikipedia.org/wiki/Brainfuck)
