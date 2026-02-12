@@ -204,6 +204,6 @@ If you don't prefer some other compiler, more than that default, follow the inst
 
 # Disclamer
 
-Imitating this existing program is not my intention to own the idea of the original author. Immitating this is my only purpose to learn a lot in C
+Imitating this existing program is not my intention to own the idea of the original author. Immitating this is my only purpose to learn a lot in C.
 
 For more info about BrainF\*ck, check it out in [Wikipedia](https://en.wikipedia.org/wiki/Brainfuck)
