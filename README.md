@@ -30,9 +30,9 @@ In Linux and MacOS, everything was already provided.
 
 I recommend [MSYS2 (Click this to download)](https://github.com/msys2/msys2-installer/releases/download/2025-12-13/msys2-x86_64-20251213.exe) to download and install, since some other tools that we need is already provided.
 
-Note: Some following commands, with a "pacman", is only compatible for MSYS2, and other Linux Distribution (Arch Linux, Black Arch, Manjaro, EndeavourOS, Garuda Linux, Omarchy, etc.)
+**Note: Some following commands, with a "pacman", is only compatible for MSYS2, and other Linux Distributions (Arch Linux, Black Arch, Manjaro, EndeavourOS, Garuda Linux, Omarchy, etc.)**
 
-If make, git, and g++ or clang, isn't there, you can use this following command:
+If make, git, and g++ or clang, isn't there, use this following command:
 
 ## For g++
 
@@ -62,10 +62,10 @@ clang --version
 ## For git and make
 
 ```bash
-# Skip this command, if you use this already
+# Skip this command if you use this already
 pacman -Syu
 
-# Programs that we need
+# Programs that we need to download and install
 pacman -S make git
 ```
 
@@ -77,7 +77,7 @@ pacman -S make git
 # It compiles the main program
 make main
 
-# If the program needs a permission to run, use this command
+# If the program needs a permission to run, use this command:
 chmod +x brainfck
 
 # Run
@@ -105,22 +105,24 @@ Options:
 
 # Usage of Brainfck
 
-These are the following symbols that you can use:
+These are the following symbols that you can use in coding BrainF\*ck:
 
-| Symbol | Description                                                                            |
-| ------ | -------------------------------------------------------------------------------------- |
-| <      | Move to the left-side of the cell                                                      |
-| >      | Move to the right-side of the cell                                                     |
-| +      | Increments 1 value in the current cell                                                 |
-| -      | Decrements 1 value in the current cell                                                 |
-| .      | Prints the current cell                                                                |
-| ,      | Makes an input in the initial cell                                                     |
-| [      | Starting loop                                                                          |
-| ]      | Ending loop. It acts, as it checks the initial cell is 0. It ends the loop if its true |
+| Symbol | Description                                                                                 |
+| ------ | ------------------------------------------------------------------------------------------- |
+| <      | Move to the left-side of the cell                                                           |
+| >      | Move to the right-side of the cell                                                          |
+| +      | Increments 1 value in the current cell                                                      |
+| -      | Decrements 1 value in the current cell                                                      |
+| .      | Prints the current cell                                                                     |
+| ,      | Makes an input in the current cell                                                          |
+| [      | Starting loop                                                                               |
+| ]      | Ending loop. It acts, as it checks the current cell if it's 0; It ends the loop if its true |
+
+**Note: Using a symbol or character that is not part of this program, will be ignored— you don't need to worry about that**
 
 # Example
 
-This code, shows the output, "Hello World!"
+This code shows the output, "Hello World!"
 
 ```
 ++>+++++++[<++++++++++>-]<.
@@ -166,7 +168,7 @@ chmod +x brainfk-gen
 # Same as the first line (without any other quote)
 ./brainfk-gen "Hello World!"
 
-# Makes an input, for you to type something
+# It makes an input, for you to type something
 ./brainfk-gen
 ```
 
@@ -218,7 +220,7 @@ If you don't prefer some other compiler, more than that default, follow the inst
 
 # Disclamer
 
-Imitating this existing program is not my intention to own the idea of the original author. It is my only purpose to learn a lot in C.
+Imitating this existing program is not my intention to own the idea of the existing source. It is my only purpose to learn a lot in C.
 
 For more info about BrainF\*ck, check it out in [Wikipedia](https://en.wikipedia.org/wiki/Brainfuck)
 
