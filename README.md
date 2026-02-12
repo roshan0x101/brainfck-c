@@ -2,6 +2,49 @@
 
 It is a esoteric programming language, inspired by the original esoteric programming language, named BrainF\*ck
 
+# Pre-requisites
+
+This are the following requirements:
+
+## Windows
+
+| Requirements                                   | Description                                                    |
+| ---------------------------------------------- | -------------------------------------------------------------- |
+| **Make GNU**                                   | For quick compiling a software                                 |
+| **g++ or clang**                               | Our C/C++ Compiler                                             |
+| **git**                                        | For cloning/fetching the repository                            |
+| **Cygwin, MSYS2, WSL2 or Git Bash (Optional)** | For more flexible in performing this task (supported in Linux) |
+
+In Linux and MacOS, everything was already provided.
+
+I recommend MSYS2 to download and install, since some other tools that we need is already provided.
+If Make, git, and g++ or clang, isn't there, you can use this following command:
+
+## For g++
+
+If you prefer "g++" as our C/C++ compiler, this following command;
+
+```bash
+pacman -Syu
+
+pacman -S mingw-w64-ucrt-x86_64-gcc
+
+# This will ensure if "g++" is already exist
+g++ --version
+```
+
+## For clang
+
+```bash
+pacman -Syu
+
+# I suggest to add "mingw-w64-ucrt-x86_64-gcc", ensure "clang" will work
+pacman -S mingw-w64-ucrt-x86_64-gcc clang
+
+# This will ensure if "clang" is already exist
+clang --version
+```
+
 # Instructions
 
 ## For Windows (Cygwin, WSL2, MYSYS2, etc.), Linux and MacOS
@@ -119,6 +162,35 @@ brainfk-gen >> sample.b
 ```
 
 This almost acts like the original BrainF\*ck
+
+# Troubleshooting
+
+## For "make"
+
+If this error occurred in your terminal, as you use "make" command:
+
+```bash
+make: *** [makefile:6: all] Error 127
+```
+
+Open the filename "makefile". If clang is exist (to find out the existence of clang, find out in **[For clang section](#for-clang)**), but g++ is not, change the value of COMPILER variable in that file (in default, this was located in line 3):
+
+```bash
+# Before the value
+COMPILER = g++
+
+# This should be the value after
+COMPILER = clang
+```
+
+Then run this command:
+
+```bash
+# This should work
+make
+```
+
+If you don't prefer some other compiler, more than that default, follow the instructions in **[Instructions section](#instructions)**
 
 # Disclamer
 
