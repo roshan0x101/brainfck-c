@@ -221,7 +221,7 @@ If you don't prefer some other compiler, more than that default, follow the inst
 # Disclaimer
 
 * **Attribution:** The Brainfuck esoteric programming language was originally designed by Urban Müller. This repository serves solely as an independent implementation.
-* **Educational Intent:** The primary goal of this project is to write parsers and expand upon learning the core C programming fundamentals. 
+* **Educational Intent:** The primary goal of this project is to write parsers and expand upon learning the core of C programming fundamentals.
 * **Liability:** This software is provided "as is", without warranty of any kind, express or implied. In no event shall the author, arleydev0x101, be liable for any claim, damages, or other liability arising from the use of this software.
 
 For more info about BrainF\*ck, check it out in [Wikipedia](https://en.wikipedia.org/wiki/Brainfuck)
