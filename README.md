@@ -1,229 +1,200 @@
-# brainfck-c
+# Brainfuck-C 🧠
 
-It is a esoteric programming language, inspired by the original esoteric programming language, named BrainF\*ck
+It is a fast, lightweight, and highly optimized esoteric programming language interpreter and code generator, inspired by the original language named BrainF\*ck.
+
+---
 
 # Quick Start
 
-To get yourself started to try this program, use this following commands:
+To get yourself started and try this program, use the following commands:
 
 ```bash
 git clone https://github.com/arleydev0x101/brainfck-c
 cd brainfck-c
 make
-./brainfk samples/hello-world.bf
+
+# Ensure you have a valid .bf file to run, for example:
+./bin/brainfk run main.bf
 ```
+
+---
 
 # Pre-requisites
 
-This are the following requirements:
+These are the following requirements:
 
-## Windows
+| Requirements | Description |
+| :--- | :--- |
+| **[GNU Make](https://www.gnu.org/software/make/)** | For quickly compiling the software |
+| **[gcc](https://gcc.gnu.org/) or [clang](https://clang.llvm.org/)** | Our C Compiler |
+| **[Git](https://git-scm.com/)** | For cloning/fetching the repository |
+| **[Cygwin](https://www.cygwin.com/), [MSYS2](https://www.msys2.org/), [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install) or [Git Bash](https://git-scm.com)** | For flexibility in performing tasks (natively supported in Linux) |
 
-| Requirements                                                                                                                                                                        | Description                                                    |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| **[Make GNU](https://www.gnu.org/software/make/)**                                                                                                                                  | For quick compiling a software                                 |
-| **[g++](https://gcc.gnu.org/) or [clang](https://clang.llvm.org/)**                                                                                                                 | Our C/C++ Compiler                                             |
-| **[Git](https://git-scm.com/)**                                                                                                                                                     | For cloning/fetching the repository                            |
-| **[Cygwin](https://www.cygwin.com/), [MSYS2](https://www.msys2.org/), [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install) or [Git Bash](https://git-scm.com) (Optional)** | For more flexible in performing this task (supported in Linux) |
+In Linux and MacOS, most of these are already provided.
 
-In Linux and MacOS, everything was already provided.
+For **Windows**, I recommend downloading and installing [MSYS2](https://www.msys2.org/), since the tools we need can be easily managed there.
 
-I recommend [MSYS2 (Click this to download)](https://github.com/msys2/msys2-installer/releases/download/2025-12-13/msys2-x86_64-20251213.exe) to download and install, since some other tools that we need is already provided.
+**Note: The following commands using `pacman` are only compatible with MSYS2 and Arch-based Linux Distributions.**
 
-**Note: Some following commands, with a "pacman", is only compatible for MSYS2, and other Linux Distributions (Arch Linux, Black Arch, Manjaro, EndeavourOS, Garuda Linux, Omarchy, etc.)**
-
-If make, git, and g++ or clang, isn't there, use this following command:
-
-## For g++
-
-If you prefer "g++" as our C/C++ compiler, this following command;
-
+### For GCC (Recommended)
 ```bash
 pacman -Syu
-
 pacman -S mingw-w64-ucrt-x86_64-gcc
 
-# This will check if "g++" is already exist
-g++ --version
+# Check if gcc installed successfully
+gcc --version
 ```
 
-## For clang
-
+### For Git and Make
 ```bash
-pacman -Syu
-
-# I suggest to add "mingw-w64-ucrt-x86_64-gcc", to ensure "clang" will work
-pacman -S mingw-w64-ucrt-x86_64-gcc clang
-
-# This will check if "clang" is already exist
-clang --version
-```
-
-## For git and make
-
-```bash
-# Skip this command if you use this already
-pacman -Syu
-
-# Programs that we need to download and install
 pacman -S make git
 ```
 
-# Instructions
+---
 
-## For Windows (Cygwin, WSL2, MYSYS2, etc.), Linux and MacOS
+# Project Structure
 
-```bash
-# It compiles the main program
-make main
+The codebase is organized following standard C project conventions:
 
-# If the program needs a permission to run, use this command:
-chmod +x brainfck
-
-# Run
-./brainfck
+```text
+brainfuck-c/
+├── include/            # C Header files (.h)
+├── src/                # C Source files (.c)
+├── samples/            # Example Brainfuck scripts
+├── obj/                # Compiled object files (generated by Make)
+├── bin/                # The final compiled executable (generated by Make)
+└── Makefile            # Automated build instructions
 ```
 
-# Usage
+---
+
+# Instructions & Usage
+
+The compiled program acts as a multi-tool. You can pass it subcommands to either execute code (`run`) or generate it (`gen`).
 
 ```bash
-brainfk <filename> [options]
+# Compile the entire project
+make
 
-Options:
-	-s	ASCII number for separation of digits
-	-c	It prints the output as decimal (separated by space), instead of character
-	-h	It prints the help message
+# Make the output executable (Linux/MacOS)
+chmod +x bin/brainfk
 ```
 
-# Example
+## 1. The Interpreter (`run`)
 
+Execute your Brainfuck scripts safely. 
+
+**Syntax:**
 ```bash
-./brainfck main.bf				# The file that you wanted to run its code
-./brainfck -c main.bf			# It prints as decimal value, instead of a character
-./brainfck -c main.bf -s 42		# It Adds separation, as it prints the decimal value outputs
+./bin/brainfk run <filename> [options]
 ```
+
+**Options:**
+- `-c` : Print the output as space-separated decimal values instead of ASCII characters.
+- `-s <number>` : Add a custom ASCII character (provided by its decimal value) as a separator when using `-c`.
+- `-h` : Print the help message.
+
+**Examples:**
+```bash
+./bin/brainfk run main.bf                 # Standard execution
+./bin/brainfk run main.bf -c              # Output decimal values
+./bin/brainfk run main.bf -c -s 42        # Output decimals separated by '*' (ASCII 42)
+```
+
+## 2. The Code Generator (`gen`)
+
+Translate normal text into highly optimized Brainfuck code. The generator utilizes a **5-Cell Heuristic Memory Map** to find the mathematical shortest path for characters, resulting in highly compressed output.
+
+**Syntax:**
+```bash
+# Provide text directly as arguments
+./bin/brainfk gen Hello World!
+./bin/brainfk gen "Hello World!"
+
+# Or enter interactive mode by running without arguments
+./bin/brainfk gen
+```
+
+---
 
 # Usage of Brainfck
 
-These are the following symbols that you can use in coding BrainF\*ck:
+These are the following symbols that you can use when writing BrainF\*ck code:
 
-| Symbol | Description                                                                                 |
-| ------ | ------------------------------------------------------------------------------------------- |
-| <      | Move to the left-side of the cell                                                           |
-| >      | Move to the right-side of the cell                                                          |
-| +      | Increments 1 value in the current cell                                                      |
-| -      | Decrements 1 value in the current cell                                                      |
-| .      | Prints the current cell                                                                     |
-| ,      | Makes an input in the current cell                                                          |
-| [      | Starting loop                                                                               |
-| ]      | Ending loop. It acts, as it checks the current cell if it's 0; It ends the loop if its true |
+| Symbol | Description |
+| :---: | :--- |
+| `<` | Move to the left-side of the cell (previous cell). |
+| `>` | Move to the right-side of the cell (next cell). |
+| `+` | Increments 1 value in the current cell `(val = (val + 1) % 256)`. |
+| `-` | Decrements 1 value in the current cell `(val = (val - 1) % 256)`. |
+| `.` | Prints the current cell as an ASCII character. |
+| `,` | Makes an input in the current cell. |
+| `[` | Jumps forward to the command after the matching `]` if the current cell is `0`. |
+| `]` | Jumps backward to the command after the matching `[` if the current cell is NOT `0`. |
 
-**Note: Using a symbol or character that is not part of this program, will be ignored— you don't need to worry about that**
+**Note:** The memory tape consists of 30,000 cells. Each cell is an 8-bit unsigned integer (`unsigned char`), meaning it mathematically holds values from 0 to 255. Any symbol or character that is not part of this table will be treated as a comment and safely ignored.
 
-# Example
+## Example Generated Output
+This is the highly optimized code our generator produces for the output `"Hello World!"`:
 
-This code shows the output, "Hello World!"
-
-```
-++>+++++++[<++++++++++>-]<.
-++++>+++++[<+++++>-]<.
+```brainfuck
+++++++++++[>+++>+++++++>++++++++++>+++++++++++<<<<-]
+>>++.
+>+.
 +++++++.
 .
 +++.
-+>++++++++[<---------->-]<.
-+++++>+++++[<++++++++++>-]<.
------->+++[<++++++++++>-]<.
+<<++.
+>>---.
+>---.
 +++.
 ------.
 --------.
-+++>+++++++[<---------->-]<.
+>---.
 ```
 
-# Using the Generator
-
-## For Windows (Cygwin, WSL2, MYSYS2, etc.), Linux and MacOS
-
-```bash
-# It compiles the program
-make generator
-
-# If the program needs a permission to run, use this command
-chmod +x brainfk-gen
-
-# Run
-./brainfk-gen
-```
-
-# Usage of the Generator
-
-```bash
-./brainfk-gen [words]
-```
-
-# Example
-
-```bash
-./brainfk-gen Hello World!
-
-# Same as the first line (without any other quote)
-./brainfk-gen "Hello World!"
-
-# It makes an input, for you to type something
-./brainfk-gen
-```
+---
 
 # Tips
 
-Instead of highlighting and copy, manually, the output in your terminal, use this following command:
+Instead of manually highlighting and copying the generated output in your terminal, use terminal redirection to save it directly to a file:
 
 ```bash
-# Write
-./brainfk-gen Hello World! > sample.b
+# Write directly to a new file
+./bin/brainfk gen "Hello World!" > sample.b
 
-# Append
-./brainfk-gen Hello World! >> sample.b
-
-# This works, but this will take also the prompt output
-./brainfk-gen >> sample.b
+# Append to an existing file
+./bin/brainfk gen "This is more text" >> sample.b
 ```
 
-This almost acts like the original BrainF\*ck
+---
 
 # Troubleshooting
 
-## For "make"
-
-If this error occurred in your terminal, as you use "make" command:
-
+If this error occurs in your terminal when you use the `make` command:
 ```bash
-make: *** [makefile:6: all] Error 127
+make: *** [Makefile:x: all] Error 127
 ```
 
-Open the filename "makefile". If clang is exist (to find out the existence of clang, find out in **[For clang section](#for-clang)**), but g++ is not, change the value of COMPILER variable in that file (in default, this was located in line 3):
+This usually means your C compiler wasn't found. Open the `makefile`. If you installed `clang` instead of `gcc`, change the `CC` variable at the top of the file:
 
-```bash
-# Before the value
-COMPILER = g++
+```makefile
+# Before
+CC = gcc
 
-# This should be the value after
-COMPILER = clang
+# After
+CC = clang
 ```
+Then run `make` again.
 
-Then run this command:
-
-```bash
-# This should work
-make
-```
-
-If you don't prefer some other compiler, more than that default, follow the instructions in **[Pre-requisites section](#pre-requisites)**
+---
 
 # Disclaimer
 
 * **Attribution:** The Brainfuck esoteric programming language was originally designed by Urban Müller. This repository serves solely as an independent implementation.
-* **Educational Intent:** The primary goal of this project is to write parsers and expand upon learning the core of C programming fundamentals.
+* **Educational Intent:** The primary goal of this project is to write parsers, understand memory management, and expand upon learning the core of C programming fundamentals.
 * **Liability:** This software is provided "as is", without warranty of any kind, express or implied. In no event shall the author, arleydev0x101, be liable for any claim, damages, or other liability arising from the use of this software.
 
-For more info about BrainF\*ck, check it out in [Wikipedia](https://en.wikipedia.org/wiki/Brainfuck)
+For more info about BrainF\*ck, check it out on [Wikipedia](https://en.wikipedia.org/wiki/Brainfuck).
 
 Github: [arleydev0x101](https://github.com/arleydev0x101)
