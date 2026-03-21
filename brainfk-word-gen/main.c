@@ -20,26 +20,26 @@ int main(int argc, char **argv)
 
 	input[0] = '\0';
 
-	if (argc == 1)
-	{
-		printf("Enter an input: ");
-		fgets(input, MAX_LIMIT, stdin);
-		for (size_t i = strlen(input); input[i - 1] != '\n'; input[i++] = getchar())
-		{
-			if (i + 1 == i_limit)
-			{
-				i_limit += 1000;
-				char *tmp = (char *)realloc(input, i_limit);
-				if (tmp == NULL)
-				{
-					puts(MEM_ERROR_MSG);
-					free(input);
-					return 1;
-				}
-				input = tmp;
-			}
-		}
-	}
+	if (argc == 1) {
+        printf("Enter an input: ");
+        int c;
+        size_t i = 0;
+        
+        while ((c = getchar()) != '\n' && c != EOF) {
+            if (i + 1 >= i_limit) {
+                i_limit += 1000;
+                char* tmp = (char*)realloc(input, i_limit);
+                if (tmp == NULL) {
+                    puts(MEM_ERROR_MSG);
+                    free(input);
+                    return 1;
+                }
+                input = tmp;
+            }
+            input[i++] = (char)c;
+        }
+        input[i] = '\0';
+    }
 
 	for (int i = 1; i < argc; ++i) {
 
