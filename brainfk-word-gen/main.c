@@ -4,26 +4,34 @@
 
 void multiply(int, char);
 
-#define MAX_LIMIT 5
+#define MAX_LIMIT 30000
 #define MEM_ERROR_MSG "Memory allocation error!\nPlease, free your memory to use this program, properly."
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv)
+{
 	size_t i_limit = MAX_LIMIT;
-	char* input = (char*) malloc(MAX_LIMIT * sizeof(char));
+	char *input = (char *)malloc(MAX_LIMIT * sizeof(char));
 
-	if (input == NULL) {
+	if (input == NULL)
+	{
 		puts(MEM_ERROR_MSG);
 		return 1;
 	}
 
-	if (argc == 1) {
+	input[0] = '\0';
+
+	if (argc == 1)
+	{
 		printf("Enter an input: ");
 		fgets(input, MAX_LIMIT, stdin);
-		for (size_t i = strlen(input); input[i-1] != '\n'; input[i++] = getchar()){
-			if (i + 1 == i_limit) {
+		for (size_t i = strlen(input); input[i - 1] != '\n'; input[i++] = getchar())
+		{
+			if (i + 1 == i_limit)
+			{
 				i_limit += 1000;
-				char* tmp = (char*)realloc(input, i_limit);
-				if (tmp == NULL) {
+				char *tmp = (char *)realloc(input, i_limit);
+				if (tmp == NULL)
+				{
 					puts(MEM_ERROR_MSG);
 					free(input);
 					return 1;
@@ -34,57 +42,76 @@ int main(int argc, char** argv) {
 	}
 
 	for (int i = 1; i < argc; ++i) {
-		strcat(input, argv[i]);
-		input[strlen(input)] = ' ';
-		if (strlen(input) + strlen(argv[i]) >= i_limit){
-			i_limit += 1000;
-			char* tmp = (char*)realloc(input, i_limit);
-			if (tmp == NULL) {
-				puts(MEM_ERROR_MSG);
-				free(input);
-				return 1;
-			}
-			input = tmp;
-		}
-	}
 
-	input[strlen(input) - 1] = 0;
+        size_t n_mem = strlen(input) + strlen(argv[i]) + 2; 
+        
+        if (n_mem >= i_limit) {
+            i_limit = n_mem + 1000;
+            char* tmp = (char*)realloc(input, i_limit);
+            if (tmp == NULL) {
+                puts(MEM_ERROR_MSG);
+                free(input);
+                return 1;
+            }
+            input = tmp;
+        }
+        
+        strcat(input, argv[i]);
+        strcat(input, " "); 
+    }
+
+    if (strlen(input) > 0) {
+        input[strlen(input) - 1] = '\0';
+    }
 
 	int tmp, t;
-	for (int i = 0; input[i]; ++i){
-		if (i){
+	for (int i = 0; input[i]; ++i)
+	{
+		if (i)
+		{
 			tmp = abs(input[i] - input[i - 1]);
 			t = input[i] > input[i - 1];
 			if (tmp <= 10)
 				multiply(tmp, t ? '+' : '-');
 
-			else {
+			else
+			{
 				multiply(tmp % 10, t ? '+' : '-');
 				putchar('>');
-				multiply(tmp / 10, t ? '+': '-');
-				putchar('[');	putchar('<');
-				multiply(10,  '+');
-				putchar('>');	putchar('-');
-				putchar(']');	putchar('<');
+				multiply(tmp / 10, t ? '+' : '-');
+				putchar('[');
+				putchar('<');
+				multiply(10, '+');
+				putchar('>');
+				putchar('-');
+				putchar(']');
+				putchar('<');
 			}
 		}
-		else {
+		else
+		{
 			multiply(input[i] % 10, '+');
 			putchar('>');
 			multiply(input[i] / 10, '+');
-			putchar('[');	putchar('<');
-			multiply(10,  '+');
-			putchar('>');	putchar('-');
-			putchar(']');	putchar('<');
+			putchar('[');
+			putchar('<');
+			multiply(10, '+');
+			putchar('>');
+			putchar('-');
+			putchar(']');
+			putchar('<');
 		}
-		putchar('.');	putchar('\n');
+		putchar('.');
+		putchar('\n');
 	}
 	free(input);
 	return 0;
 }
 
-void multiply(int n, char c){
-	for (int i = 0; i < n; ++i) {
+void multiply(int n, char c)
+{
+	for (int i = 0; i < n; ++i)
+	{
 		putchar(c);
 	}
 }
