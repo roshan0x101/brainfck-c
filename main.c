@@ -13,7 +13,7 @@
 	puts("\t-c\tIt prints the output as decimal (separated by space), instead of character"); \
 	puts("\t-h\tIt prints the help message");
 
-#define MAX_CELLS 100
+#define MAX_CELLS 30000
 #define MAX_ASCII 256
 
 struct ProgParser
@@ -31,7 +31,7 @@ const char *P_OPTIONS = "chs:";
 void parse_opts(char *, int, char **, struct ProgParser *);
 int check_ext(const char *);
 
-char cells[MAX_CELLS] = {0};
+unsigned char cells[MAX_CELLS] = {0};
 
 int main(int argc, char **argv)
 {
@@ -77,7 +77,7 @@ int main(int argc, char **argv)
 	int stack_loop[100];
 	int stack_i = -1;
 
-	size_t i_limit = 1000;
+	size_t i_limit = MAX_CELLS;
 	char *input = (char *)malloc(i_limit * sizeof(char));
 	if (input == NULL)
 	{
@@ -93,7 +93,7 @@ int main(int argc, char **argv)
 	{
 		if (i >= i_limit - 1)
 		{
-			i_limit += 1000;
+			i_limit += MAX_CELLS;
 			char *tmp = (char *)realloc(input, i_limit);
 			if (tmp == NULL)
 			{
@@ -110,8 +110,9 @@ int main(int argc, char **argv)
 
 	fclose(f);
 
-	size_t x = sizeof(cells) / 2;
-	for (size_t i = 0; i < strlen(input); ++i)
+	size_t input_len = strlen(input);
+	size_t x = 0;
+	for (size_t i = 0; i < input_len; ++i)
 	{
 		switch (input[i])
 		{
@@ -121,12 +122,8 @@ int main(int argc, char **argv)
 		case '<':
 			x = (x == 0) ? MAX_CELLS - 1 : x - 1;
 			break;
-		case '+':
-			cells[x] = (cells[x] + 1) % MAX_ASCII;
-			break;
-		case '-':
-			cells[x] = (cells[x] - 1) % MAX_ASCII;
-			break;
+		case '+':   cells[x] += 1;  break;
+		case '-':   cells[x] -= 1;  break;
 		case '[':
 			if (cells[x] == 0)
 			{
