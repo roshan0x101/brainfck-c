@@ -29,7 +29,7 @@ struct ProgParser
 const char *P_OPTIONS = "chs:";
 
 void parse_opts(char *, int, char **, struct ProgParser *);
-int check_ext(char *);
+int check_ext(const char *);
 
 char cells[MAX_CELLS] = {0};
 
@@ -174,19 +174,18 @@ int main(int argc, char **argv)
 	return 0;
 }
 
-int check_ext(char *filename)
-{
-	char tmp[3];
-	char *ext1 = (char *)"bf";
-	char *ext2 = (char *)"b";
-	char *tok = strtok(filename, ".");
-	tok = strtok(NULL, ".");
-	while (tok != NULL)
-	{
-		strncpy(tmp, filename, 2);
-		tok = strtok(NULL, ".");
-	}
-	return strcmp(tmp, ext1) == 0 || strcmp(ext2, tmp) == 0;
+int check_ext(const char* filename) {
+    // strrchr finds the last '.' in the string safely
+    const char* ext = strrchr(filename, '.');
+    
+    // If we found a dot, check if the string matches our allowed extensions
+    if (ext != NULL) {
+        if (strcmp(ext, ".bf") == 0 || strcmp(ext, ".b") == 0) {
+            return 0; // 0 means false/no error (Valid extension!)
+        }
+    }
+    
+    return 1; // 1 means true/error (Invalid or missing extension)
 }
 
 void parse_opts(char *name, int argc, char **argv, struct ProgParser *inp_parser)
